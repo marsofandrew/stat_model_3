@@ -3,6 +3,7 @@ import lhw as distributions
 
 DATA_SIZE = 10000
 N = 10  # the degree of freedom
+ITERATIONS = 50
 
 
 def count_observed_amount_in_parts(data: list, fractals: list):
@@ -41,11 +42,14 @@ def get_fractals(parts, n):
 
 # pirson 467
 def main():
-    data = [distributions.rnstud(N) for i in range(DATA_SIZE)]
-    fractals = get_fractals(20, N)
-    expected = count_expected_amount_in_parts(fractals)
-    observed = count_observed_amount_in_parts(data, fractals)
-    print("hi square =", count_hi_square(observed, expected))
+    results = []
+    for i in range(ITERATIONS):
+        data = [distributions.rnstud(N) for i in range(DATA_SIZE)]
+        fractals = get_fractals(20, N)
+        expected = count_expected_amount_in_parts(fractals)
+        observed = count_observed_amount_in_parts(data, fractals)
+        results.append(count_hi_square(observed, expected))
+    print('hi square =', (sum(results) / ITERATIONS))
 
 
 if __name__ == '__main__':
